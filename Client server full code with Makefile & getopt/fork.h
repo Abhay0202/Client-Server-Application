@@ -5,7 +5,7 @@
 
 void multiple_process(int number) 
 { 
-	int i, choice;
+	int pos, choice;
 	pid_t pid;//declaring process id variable
 
 	printf("\n*********** MENU *************\n");
@@ -19,7 +19,7 @@ while(1)
       switch(choice)
       {
          case 1: 
-      		for(i=0;i<number;i++)  
+      		for(pos=0; pos<number ;pos++)  
 		{ 
 			if((pid = fork()) == 0) 
 			{ 
