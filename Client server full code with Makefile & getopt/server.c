@@ -17,11 +17,13 @@
 
 #define connections 5
 #define buffer_size 255
+#define portno 9999
 
 int main()     
 {
      int sockfd, newsockfd;
-     long int portno;
+     int payload1[1000];
+     int payload,count=0,pos=0, msg_code,size,cmp;
      socklen_t clilen;            
      char buffer[buffer_size];            //buffer for storing data/msg
      struct sockaddr_in serv_addr, cli_addr;       //structures
@@ -36,8 +38,6 @@ int main()
      }
  
      bzero((char *) &serv_addr, sizeof(serv_addr));//clears  data in structure
-     portno=9999;
-
      //filling the required data into the server structures
 
      serv_addr.sin_family = AF_INET;          //IPv4-domain
@@ -79,13 +79,8 @@ int main()
 		exit(1);
 	   }
            printf("\n"); 
-
-	int payload;
-	int payload1[1000];
-	int count=0;
-	int pos=0;
-
-	int msg_code=buffer[4];
+        
+	msg_code=buffer[4];
 	
 	if(msg_code==1)
 	{
@@ -102,12 +97,12 @@ int main()
 		payload=buffer[8];
 	}	
 
-	int n=5;
+	size=5;
 
 	switch(msg_code)
 	{
 		case 1: //doubly linked list operation
-			dll(payload1, n);
+			dll(payload1, size);
 			break;
 		
 		case 2: //threading;
@@ -129,16 +124,7 @@ int main()
 			}
 			break;
 	}
-
-
-	//printf("sequence no of the frame is %c\n", sequence_no);
-	
-        //printf("the input type of the socket is %s\n", type);	
-	
-	//printf("the msg code chosen is: %d\n", msg_code);
-	
-        //printf("the output type of the socket is %s\n", op_type);	
-        
+	      
         bzero(buffer, buffer_size);   //clears buffer for receiving the msg
 		
         channel = read(newsockfd,buffer,buffer_size);  //server reads the buffer
@@ -162,8 +148,8 @@ int main()
 		error("ERROR writing to socket");
 		exit(1);
 	   }
-
-           int cmp=strncmp("Bye" , buffer, 3);  //compares the string
+	      
+           cmp=strncmp("Bye" , buffer, 3);  //compares the string
            if(cmp == 0)
                break;
     }
