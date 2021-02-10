@@ -2,10 +2,12 @@
 #include <stdio.h> 
 #include <sys/ipc.h> 
 #include <sys/msg.h> 
+
 #define MAX 10 
 
 // structure for message queue 
-struct mesg_buffer { 
+struct mesg_buffer 
+{ 
 	long mesg_type; 
 	char mesg_text[500]; 
 } message; 
@@ -34,4 +36,3 @@ int writer()
 
 	exit(0); 
 } 
-
