@@ -1,14 +1,15 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-struct Node {
+struct Node 
+{
     struct Node *previous;
     int data;
     struct Node *next;
 }*first=NULL;
 
 
-void create(int payload[], int n)
+void create(int payload[], int size)
 {
 	int i;
 	struct Node *t,*last;
@@ -17,7 +18,7 @@ void create(int payload[], int n)
 	first->next=NULL;
 	first->previous=NULL;
 	last=first;
-	for(i=1;i<n;i++)
+	for(i=1;i<size;i++)
 	{
 		t=(struct Node*)malloc(sizeof(struct Node));
 		t->data=payload[i];
@@ -123,12 +124,10 @@ void deleteEnd(struct Node *first)
 }
 
 
-int dll(int payload[], int n)
+int dll(int payload[], int size)
 {
-
    printf("It is a Linked List Operation\n");
-   create(payload,n);
-
+   create(payload, size);
    int choice1, choice2, value;
 
    while(1)
@@ -182,5 +181,4 @@ int dll(int payload[], int n)
          default: printf("\nPlease select correct option!!!");
       }
    }
-	
 }
