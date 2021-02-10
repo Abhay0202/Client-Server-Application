@@ -12,11 +12,11 @@ void* trythis()
 { 
 	pthread_mutex_lock(&lock); //function to lock the mutex
 
-	unsigned long i = 0; 
+	unsigned long pos = 0; 
 	counter += 1; 
 	printf("\n Job %d has started\n", counter); 
 
-	for (i = 0; i < (0xFFFFFFFF); i++) 
+	for (pos = 0; pos < (0xFFFFFFFF); pos++) 
 		; 
 
 	printf("\n Job %d has finished\n", counter); 
@@ -28,7 +28,7 @@ void* trythis()
 
 int multithread(void) 
 { 
-	int i = 0; 
+	int index = 0; 
 	int error; 
         int choice;
 	while(1)
@@ -46,13 +46,13 @@ int multithread(void)
 				return 1; 
        			} 
 
-			while (i < 2) 
+			while (index < 2) 
 			{ 
-				error = pthread_create(&(tid[i]), NULL, &trythis,NULL); 
+				error = pthread_create(&(tid[index]), NULL, &trythis,NULL); 
 				if (error != 0) 
 				printf("\nThread can't be created :[%s]", 
 					strerror(error)); 
-				i++; 
+				index++; 
 			} 
 
 			pthread_join(tid[0], NULL); //waiting process
