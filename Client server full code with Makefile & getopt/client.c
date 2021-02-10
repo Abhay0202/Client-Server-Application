@@ -11,16 +11,19 @@
 #include "args.h"
 
 #define buffer_size 255
+#define portno 9999
 
 int main(int argc, char* argv[])
 {	    
-    int sockfd, portno, channel,count,pos;
+    int sockfd, channel,count,pos,f3,f5,cmp;
     struct sockaddr_in serv_addr;
     struct hostent *server;   //gives info related to host-host name, ip address
-
+    const char *name= "127.0.0.1";
+    char *f1;
+    char *f2;
+    char *f4;
     char buffer[buffer_size];   //buffer for storing data
-
-     portno=9999;
+    server = gethostbyname(name); //storing server's IP address
 
     sockfd = socket(AF_INET, SOCK_STREAM, 0);//creating socket for communication
     if (sockfd < 0) 
@@ -28,8 +31,6 @@ int main(int argc, char* argv[])
         error("ERROR opening socket");
 	exit(1);
     }
-     const char *name= "127.0.0.1";
-    server = gethostbyname(name); //storing server's IP address
 	
     if (server == NULL) 
     {     
@@ -42,15 +43,15 @@ int main(int argc, char* argv[])
 	//server structure
 
     serv_addr.sin_family = AF_INET;  //IPv4 Domain address
-    bcopy((char *)server->h_addr, (char *)&serv_addr.sin_addr.s_addr,
-         server->h_length); 
+    bcopy((char *)server->h_addr, (char *)&serv_addr.sin_addr.s_addr, server->h_length); 
 
     serv_addr.sin_port = htons(portno);  //port no
 
     //connect function
 
-    if (connect(sockfd,(struct sockaddr *) &serv_addr,sizeof(serv_addr)) < 0) 
-    {    error("ERROR connecting");
+    if (connect( sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) 
+    {   
+	error("ERROR connecting");
 	exit(1);
     }
 
@@ -60,20 +61,20 @@ printf("Client: ");
 
     while(1)
     {
-	struct frame *ptr=arguments(argc, argv);//calls arguments() from args.h
+	struct frame *ptr= inputs(argc, argv);//calls arguments() from args.h
 
         bzero(buffer,buffer_size);//clears the buffer
 	
-	char *f1= ptr->sequence_no;      //passing sequence_no
+	*f1= ptr->sequence_no;      //passing sequence_no
 	strcpy(buffer,f1);  //copying sequence no to buffer
 
-	char *f2= ptr->type;      //passing type
+	*f2= ptr->type;      //passing type
 	strcat(buffer,f2);
 
-	int f3 = ptr->msg_code;      //passing msg_code
+	f3 = ptr->msg_code;      //passing msg_code
 	buffer[4]=f3;
 
-	char *f4= ptr->o_p_type;      //passing o_p_type
+	*f4= ptr->o_p_type;      //passing o_p_type
 	strcat(buffer,f4);
 	
 	if(f3==1)
@@ -88,7 +89,7 @@ printf("Client: ");
 	
 	else
 	{
-		int f5=ptr->payload;
+		f5=ptr->payload;
 		buffer[8]=f5;
 	}
 
@@ -114,11 +115,10 @@ printf("Client: ");
 
 	printf("\n");
         printf("Server : %s\n",buffer);
-        int cmp = strncmp("Bye" , buffer , 3); //compares the string
+        cmp = strncmp("Bye" , buffer , 3); //compares the string
         if(cmp == 0)
                break;
     }
     close(sockfd);  //closes the socket
     return 0;
 }
-
