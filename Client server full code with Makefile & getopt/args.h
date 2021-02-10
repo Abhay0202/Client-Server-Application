@@ -18,7 +18,7 @@ struct frame
 	int payload_size;           //size of payload
 };
 
-struct frame* arguments(int argc, char* argv[])
+struct frame* inputs(int argc, char* argv[])
 {
         int option = 0;
 	int count, choice;
