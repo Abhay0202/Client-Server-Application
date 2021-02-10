@@ -3,8 +3,20 @@ It is a client server chat application which is used for interacting & for sendi
 
 DESCRIPTION RELATED TO FILES:
 
-First server.c file needs to be run by passing the port no for the network.
+"Client Server full code with Makefile & getopt" --> This is the folder that contains final code that needs to be run.
+
+First server.c file needs to be run and then client.c file needs to be run.
 
 
-Then client.c file needs to be run by passing the port no & IP address.
-Both would require command line arguments to be given. These 2 files are mainly responsible for creating the client server chat application on the same pc.
+These 2 files are mainly responsible for creating the client server chat & Data Transfer application on the same pc.
+
+
+client.c file needs to be given command line arguments from the user. First argument has to be '-t' or '-u' indicating TCP or UDP operation. Second argument that needs to be given is the message code and third argument that needs to be given is the sequence number of the frame.
+
+server.c file requires no command line arguments.
+
+
+The Client here can opt between 4 operations namely: 1. Doubly Linked List Operation  2. Multi-threading Operation  3. Fork Operation  4. IPC Mechanism 
+
+
+The Server then performs these operations & then send the output back to the user.
